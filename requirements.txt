@@ -5,4 +5,4 @@ nltk
 gunicorn
 lxml
 python-docx
-
+requests

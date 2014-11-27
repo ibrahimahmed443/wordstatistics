@@ -3,6 +3,7 @@ from flask import request
 from flask import render_template
 from flask import jsonify
 from flask import make_response
+from flask import redirect
 from werkzeug import secure_filename
 from words import stats
 from words import texts
@@ -12,6 +13,7 @@ import json
 import os
 from docx import Document
 import copy
+import requests
 
 p = os.path
 statics = p.join(p.dirname(p.abspath(__file__)), 'static/app/')
@@ -144,7 +146,28 @@ def visualize():
             'name': wordslist_name,
             'children': result
         })
-        
+
+@app.route('/google-auth')
+def google_auth():
+    code = request.args.get('code')
+    
+    payload = {
+        'code': code,
+        'client_id': '1063053443751-4cnpruguih5o7m9k5qovdrvb3bov6itv.apps.googleusercontent.com',
+        'client_secret': 'hNk_PkgAxn-fqbmgbeYMqDl_',
+        'redirect_uri': 'http://localhost/google-auth',
+        'grant_type': 'authorization_code'
+    }
+    url = 'https://accounts.google.com//o/oauth2/token'
+
+    data = requests.post(url, payload)
+    #return json.dumps(data.text)
+    return redirect('/#/upload/uploads')
+
+@app.route('/google-auth-success')
+def google_auth_success():
+    pass
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

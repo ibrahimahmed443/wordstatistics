@@ -8,8 +8,12 @@
     <li ng-class="{active: selected=='upload'}">
     <a class="clickable" ng-click="selected='upload'"> Upload New Document</a>
     </li>
+    <li  ng-class="{active: selected=='google'}">
+    <a class="clickable" ng-click="selected='google'"> Link Google document</a>
+    </li>
     <li ng-class="{active: selected=='uploaded'}">
-    <a class="clickable" ng-click="selected='uploaded'">Archive</a></li>
+    <a class="clickable" ng-click="selected='uploaded'">Archive</a>
+    </li>
   </ul>
 
   <div class="tab-content">
@@ -62,6 +66,19 @@
       </div>
 
     </div>
+  
+
+    <div class="tab-pane fade in panel panel-default" 
+      ng-class="{active: selected=='google'}"
+      style="border-top: 0">
+      <div class="panel-body">
+        <button class="btn btn-primary" ng-click="link_google_doc()">
+                Add document from Google
+        </button>
+
+      </div>
+    </div>
+
 
     <div class="tab-pane fade in panel panel-default" 
       ng-class="{active: selected=='uploaded'}"

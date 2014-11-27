@@ -3,7 +3,7 @@
   'use strict';
   var controller;
 
-  controller = function(scope, ParseCrud, http, ngTableParams, Alert) {
+  controller = function(scope, ParseCrud, http, location, ngTableParams, Alert) {
     var DocumentUpload, Documents, FilesUpload, documentSaveSuccess, removeFile, saveError, saveSuccess, uploader;
     scope.text = '';
     scope.filesUploaded = [];
@@ -35,6 +35,18 @@
         console.log(e);
         return Alert.error("Error removing uploaded file.");
       });
+    };
+    scope.link_google_doc = function() {
+      var access_type, auth_url, client_id, google_scope, redirect_uri, request_url, response_type;
+      auth_url = 'https://accounts.google.com/o/oauth2/auth';
+      response_type = 'code';
+      client_id = '1063053443751-4cnpruguih5o7m9k5qovdrvb3bov6itv.apps.googleusercontent.com';
+      google_scope = 'email https://www.googleapis.com/auth/drive';
+      redirect_uri = 'http://localhost/google-auth';
+      access_type = 'offline';
+      request_url = auth_url + '?response_type=' + response_type + '&client_id=' + client_id + '&scope=' + google_scope + '&access_type=' + access_type + '&redirect_uri=' + redirect_uri;
+      console.log(request_url);
+      return window.location.href = request_url;
     };
     scope.remove = function(e) {
       var filename, query, removeSuccess;
@@ -231,6 +243,6 @@
     };
   };
 
-  angular.module('wordsApp').controller('UploadsUploadsCtrl', ['$scope', 'ParseCrud', '$http', 'ngTableParams', 'Alert', controller]);
+  angular.module('wordsApp').controller('UploadsUploadsCtrl', ['$scope', 'ParseCrud', '$http', '$location', 'ngTableParams', 'Alert', controller]);
 
 }).call(this);

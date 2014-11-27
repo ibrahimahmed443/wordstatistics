@@ -1,6 +1,6 @@
 'use strict'
 
-controller = (scope, ParseCrud, http, ngTableParams, Alert)->
+controller = (scope, ParseCrud, http, location, ngTableParams, Alert)->
 
   scope.text = ''
   scope.filesUploaded = []      #list of files uploaded in one run; this will need to be added in parse...
@@ -30,6 +30,20 @@ controller = (scope, ParseCrud, http, ngTableParams, Alert)->
     h.error (e)->
       console.log e
       Alert.error "Error removing uploaded file."
+
+  scope.link_google_doc = ()->
+    
+    auth_url = 'https://accounts.google.com/o/oauth2/auth'
+    response_type = 'code'
+    client_id = '1063053443751-4cnpruguih5o7m9k5qovdrvb3bov6itv.apps.googleusercontent.com'
+    google_scope = 'email https://www.googleapis.com/auth/drive'
+    redirect_uri = 'http://localhost/google-auth'
+    access_type = 'offline'
+
+    request_url = auth_url + '?response_type=' + response_type + '&client_id=' + client_id + '&scope=' + google_scope + '&access_type=' + access_type + '&redirect_uri=' + redirect_uri
+
+    console.log request_url
+    window.location.href = request_url
 
   scope.remove = (e)->
     return  unless scope.hasWriteAccess(e)
@@ -225,4 +239,4 @@ controller = (scope, ParseCrud, http, ngTableParams, Alert)->
 
 angular.module('wordsApp')
   .controller 'UploadsUploadsCtrl',
-  ['$scope', 'ParseCrud', '$http', 'ngTableParams', 'Alert', controller]
+  ['$scope', 'ParseCrud', '$http', '$location', 'ngTableParams', 'Alert', controller]
